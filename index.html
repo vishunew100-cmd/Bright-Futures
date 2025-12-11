@@ -1,0 +1,381 @@
+<!-- Single-file HTML + CSS one-page site for "Bernard Christiaens — Bright Futures" charity (School & Elderly Care)
+Instructions: Save the HTML below as `index.html` and open in a browser.
+
+This version fixes the testimonial controls, volunteer modal structure, and ensures submit/cancel buttons appear only inside the modal.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bernard Christiaens — Bright Futures</title>
+  <meta name="description" content="A personal charity initiative by Bernard Christiaens to support children's education and provide compassionate care for elders." />
+
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#ffffff; --muted:#6b7280; --accent:#3b82f6; --accent-2:#10b981; --radius:14px;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#0f172a}
+    .wrap{max-width:var(--maxw); margin:28px auto; padding:20px}
+
+    /* Header / hero */
+    .hero{display:flex; flex-wrap:wrap; gap:20px; align-items:center; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; padding:40px; border-radius:18px}
+    .hero-left{flex:1; min-width:260px}
+    .hero h1{margin:0; font-size:34px; line-height:1.03}
+    .hero p{margin:14px 0; opacity:.95}
+    .btn{display:inline-block; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:600; cursor:pointer}
+    .btn-white{background:white; color:var(--accent);}
+    .btn-outline{border:1px solid rgba(255,255,255,.28); color:white;background:transparent}
+    .hero-right{flex:0 0 360px; min-width:260px}
+    .card-img{background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(2,6,23,.08)}
+    .card-img img{width:100%; height:220px; object-fit:cover; display:block}
+    .card-img .meta{padding:12px}
+
+    /* stats */
+    .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:-28px}
+    .stat{background:var(--card); padding:18px; border-radius:12px; box-shadow:0 6px 20px rgba(2,6,23,.04); text-align:center}
+    .stat .n{font-size:22px; font-weight:700}
+    .muted{color:var(--muted)}
+
+    /* sections */
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:22px}
+    .panel{background:var(--card); padding:18px; border-radius:12px; box-shadow:0 6px 20px rgba(2,6,23,.04)}
+    h3{margin:0 0 8px 0}
+    .list{margin:8px 0 0 0; padding-left:18px}
+
+    /* usage */
+    .usage{display:flex; gap:10px; margin-top:12px}
+    .slice{flex:1; padding:12px; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid #eef2ff; text-align:center}
+    .slice p{margin:6px 0 0 0; color:var(--muted); font-size:13px}
+
+    /* testimonials */
+    .testi{margin-top:18px}
+    .testi-block{padding:18px; border-radius:12px; min-height:120px}
+    .controls{display:flex; align-items:center; justify-content:space-between; margin-top:10px}
+    .ctrl-btn{border:1px solid #e6e9ef; padding:6px 10px; border-radius:8px; background:white}
+
+    /* donate/contact */
+    form label{display:block; font-size:14px; color:#111827}
+    input[type="text"], input[type="number"], input[type="email"]{width:100%; padding:10px; margin-top:6px; border-radius:8px; border:1px solid #e6e9ef}
+    .muted-small{font-size:12px; color:var(--muted)}
+    .grid2-vertical{display:grid; grid-template-columns:1fr; gap:14px}
+
+    /* modal styles */
+    .modal-overlay{display:none; position:fixed; inset:0; background:rgba(2,6,23,.5); align-items:center; justify-content:center; z-index:1200}
+    .modal-dialog{width:100%; max-width:620px; margin:auto; background:var(--card); padding:18px; border-radius:12px; box-shadow:0 20px 60px rgba(2,6,23,.3); position:relative}
+    .modal-close{position:absolute; right:12px; top:12px; border:none; background:transparent; font-size:20px; cursor:pointer}
+
+    footer{margin-top:22px; text-align:center; color:var(--muted); font-size:13px}
+
+    @media (max-width:900px){
+      .hero{padding:22px}
+      .stats{grid-template-columns:1fr}
+      .grid2{grid-template-columns:1fr}
+      .hero-right{flex-basis:100%}
+      .modal-dialog{margin:20px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-left">
+        <h1>Bernard Christiaens — Bright Futures</h1>
+        <p>Personal charity initiative by Bernard Christiaens to support children's education and provide compassionate care for elders. Transparent, local, impact-driven.</p>
+        <div style="margin-top:12px">
+          <a class="btn btn-white" href="#donate">Donate Now</a>
+          <a class="btn btn-outline" href="#programs" style="margin-left:8px">Our Programs</a>
+        </div>
+        <div class="muted-small" style="margin-top:10px">Registered charity — receipts and impact reports provided.</div>
+      </div>
+
+      <div class="hero-right">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop" alt="children and elderly">
+          <div class="meta">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <div>
+                <div style="font-weight:600">Join a movement</div>
+                <div class="muted-small">Help children & elders thrive</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-weight:700">Impact</div>
+                <div class="muted-small">Local • measurable</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="stats">
+      <div class="stat">
+        <div class="n">1,200+</div>
+        <div class="muted">Children reached</div>
+      </div>
+      <div class="stat">
+        <div class="n">600+</div>
+        <div class="muted">Elderly beneficiaries</div>
+      </div>
+      <div class="stat">
+        <div class="n">95%</div>
+        <div class="muted">Program satisfaction</div>
+      </div>
+    </section>
+
+    <section id="programs" class="grid2">
+      <div class="panel">
+        <h3>School Support</h3>
+        <p class="muted">Books, stationery, teacher stipends, safe learning spaces and after-school tutoring. We run scholarship drives and classroom repairs.</p>
+        <ul class="list muted">
+          <li>Classroom kits: books, uniforms, stationery</li>
+          <li>After-school tutoring & mentoring</li>
+          <li>Small scholarships for meritorious students</li>
+        </ul>
+        <div style="margin-top:12px"><a class="btn" href="#donate" style="background:var(--accent); color:white">Sponsor a kit</a></div>
+      </div>
+
+      <div class="panel">
+        <h3>Elderly Care</h3>
+        <p class="muted">Regular health checkups, nutritious meal deliveries, mobility support and companionship programs to reduce isolation.</p>
+        <ul class="list muted">
+          <li>Monthly health camps & basic medicines</li>
+          <li>Volunteer visitations & companionship</li>
+          <li>Emergency support fund</li>
+        </ul>
+        <div style="margin-top:12px"><a class="btn" href="#" id="openVolunteerBtn" style="background:var(--accent-2); color:white">Apply to volunteer</a></div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:18px">
+      <h3>Where your donation goes</h3>
+      <div class="usage">
+        <div class="slice"><strong>60%</strong><p>Programs & supplies</p></div>
+        <div class="slice"><strong>25%</strong><p>Field operations</p></div>
+        <div class="slice"><strong>15%</strong><p>Admin & transparency</p></div>
+      </div>
+      <p class="muted-small" style="margin-top:10px">Receipts provided for every donation. Regular impact reports shared with donors.</p>
+    </section>
+
+    <section class="testi">
+      <h3>What people say</h3>
+      <div class="panel testi-block" id="testiBlock">
+        <blockquote id="testiText" style="font-style:italic; color:#111827">“This charity made it simple to sponsor a child's education. Transparent, compassionate, and results-driven.”</blockquote>
+        <div style="margin-top:8px; font-weight:700" id="testiName">— Asha R., Volunteer</div>
+
+        <div class="controls">
+          <div>
+            <button id="prevTestiBtn" type="button" class="btn" style="background:var(--accent-2); color:white">‹ Prev</button>
+            <button id="nextTestiBtn" type="button" class="btn" style="background:var(--accent-2); color:white">Next ›</button>
+          </div>
+          <div class="muted-small" id="testiIdx">1 of 3</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="donate" class="grid2" style="margin-top:18px">
+      <div class="panel">
+        <h3>Donate — Every amount helps</h3>
+        <p class="muted">One-time or monthly gifts welcome. Donations are used for kits, meals, health camps and emergency support.</p>
+        <form id="donateForm" onsubmit="submitDonate(event)">
+          <label>Amount (USD)
+            <input type="number" id="amount" min="100" value="500" required>
+          </label>
+          <label>Name
+            <input type="text" id="donorName" placeholder="Your full name" value="Bernard Christiaens" required>
+          </label>
+          <label>Message (optional)
+            <input type="text" id="message" placeholder="A short note">
+          </label>
+
+          <div style="margin-top:12px; display:flex; gap:8px">
+            <button type="submit" class="btn" style="background:var(--accent); color:white">Donate securely</button>
+            <button type="button" class="btn" onclick="downloadSample()" style="border:1px solid #e6e9ef; background:white">Download receipt sample</button>
+          </div>
+        </form>
+        <p class="muted-small" style="margin-top:8px">Bank transfer and Card options available. Tax receipts provided where applicable.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Get in touch</h3>
+        <p class="muted">Questions about donations, volunteering or partnerships — contact us and we will respond promptly.</p>
+        <div style="margin-top:12px; font-size:14px">
+          <div><strong>Coordinator</strong>
+            <div class="muted-small">Bernard Christiaens</div>
+            <div class="muted-small">600 36th St S, Great Falls, MT 59401</div>
+          </div>
+
+          <div style="margin-top:8px"><strong>Phone</strong>
+            <div class="muted-small">(406) 590-4406 (Wireless)</div>
+            <div class="muted-small">Alternate: 618-556-1328</div>
+          </div>
+
+          <div style="margin-top:8px"><strong>Email</strong>
+            <div class="muted-small">BernardChristiaensFoundations@myself.com (work)</div>
+            <div class="muted-small">cchristiaens@gmail.com (personal)</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Volunteer modal (placed at the end so DOM elements above exist) -->
+    <div id="volunteerModal" class="modal-overlay" aria-hidden="true">
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="volTitle">
+        <button id="closeVolunteer" class="modal-close" type="button" aria-label="Close">×</button>
+        <h3 id="volTitle">Volunteer — Apply</h3>
+        <p class="muted-small">Thank you for showing interest, we will contact you about volunteering opportunities.</p>
+
+        <form id="volunteerForm" style="margin-top:12px; display:grid; gap:10px">
+          <label>Name
+            <input type="text" id="vname" required>
+          </label>
+          <label>Phone number
+            <input type="text" id="vphone" required placeholder="(406) 555-0123">
+          </label>
+          <label>Email
+            <input type="email" id="vemail" required placeholder="you@example.com">
+          </label>
+          <label>Address
+            <input type="text" id="vaddress" placeholder="Optional address">
+          </label>
+
+          <div style="display:flex; gap:8px; margin-top:6px">
+            <button type="submit" class="btn" style="background:var(--accent); color:white">Submit</button>
+            <button type="button" id="volCancel" class="btn" style="border:1px solid #e6e9ef; background:white">Cancel</button>
+          </div>
+
+          <div id="volMsg" style="display:none; margin-top:8px; padding:10px; border-radius:8px; background:#ecfdf5; color:#065f46; font-weight:600"></div>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      © <span id="year"></span> Bernard Christiaens — Bright Futures • Privacy • Terms
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const openBtn = document.getElementById('openVolunteerBtn');
+      const modal = document.getElementById('volunteerModal');
+      const closeBtn = document.getElementById('closeVolunteer');
+      const cancelBtn = document.getElementById('volCancel');
+      const form = document.getElementById('volunteerForm');
+      const msg = document.getElementById('volMsg');
+
+      function openModal(){ modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false'); window.scrollTo({top:0,behavior:'smooth'}); }
+      function closeModal(){ modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); form.reset(); msg.style.display='none'; form.style.display='grid'; }
+
+      openBtn && openBtn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
+      closeBtn && closeBtn.addEventListener('click', closeModal);
+      cancelBtn && cancelBtn.addEventListener('click', closeModal);
+
+      // close when clicking outside the inner dialog
+      modal && modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+
+      form && form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const payload = {
+          name: document.getElementById('vname').value.trim(),
+          phone: document.getElementById('vphone').value.trim(),
+          email: document.getElementById('vemail').value.trim(),
+          address: document.getElementById('vaddress').value.trim()
+        };
+
+        // try to POST to /volunteer if endpoint exists; otherwise show local message
+        try{
+          const resp = await fetch('/volunteer', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+          if(resp.ok){
+            const data = await resp.json().catch(()=>({message:'Thank you — we will contact you shortly.'}));
+            msg.textContent = data.message || 'Thank you for your interest — we will contact you shortly.';
+            msg.style.display = 'block';
+            form.style.display = 'none';
+            setTimeout(closeModal, 2800);
+            return;
+          }
+        }catch(err){ /* ignore and fallback */ }
+
+        // fallback local acknowledgement
+        msg.textContent = 'Thank you for your interest — we will contact you shortly.';
+        msg.style.display = 'block';
+        form.style.display = 'none';
+        setTimeout(closeModal, 2800);
+      });
+    })();
+  </script>
+
+  <script>
+    // testimonials data
+    const testimonials = [
+      {text: 'Supporting this initiative has been one of the most meaningful commitments of my life. My contribution of <strong>USD 1.4 Million</strong> is not a gift, but an investment in children who deserve a real chance at education and elders who deserve dignity, safety, and care. I have witnessed the transparency, compassion, and measurable impact of this work firsthand. Every dollar is applied with purpose, and the results speak for themselves. I am honored to stand behind a mission that uplifts both the youngest and the oldest members of our community.', name: 'Bernard Christiaens, Major Donor'},
+      {text: 'This charity made it simple to sponsor a child\'s education. Transparent, compassionate, and results-driven.', name: 'Dev R., Volunteer'},
+      {text: 'Their elderly-care program brought routine medical checks and companionship to residents in our area.', name: 'Trent P., Donor'},
+      {text: 'My child\'s school now has books and a clean classroom thanks to these efforts. Practical and heartfelt work.', name: 'Adam S., Parent'}
+    ];
+    let ti = 0;
+
+    function renderTesti(){
+      const txtEl = document.getElementById('testiText');
+      const nameEl = document.getElementById('testiName');
+      const idxEl = document.getElementById('testiIdx');
+      if(!txtEl || !nameEl || !idxEl) return;
+      txtEl.innerHTML = '“' + testimonials[ti].text + '”';
+      nameEl.textContent = '— ' + testimonials[ti].name;
+      idxEl.textContent = (ti+1) + ' of ' + testimonials.length;
+    }
+
+    function nextTesti(){ ti = (ti+1) % testimonials.length; renderTesti(); }
+    function prevTesti(){ ti = (ti-1 + testimonials.length) % testimonials.length; renderTesti(); }
+
+    // attach event listeners after DOM load
+    document.addEventListener('DOMContentLoaded', function(){
+      const nextBtn = document.getElementById('nextTestiBtn');
+      const prevBtn = document.getElementById('prevTestiBtn');
+      if(nextBtn) nextBtn.addEventListener('click', nextTesti);
+      if(prevBtn) prevBtn.addEventListener('click', prevTesti);
+      renderTesti();
+    });
+
+    // donate: posts to /donate if available, else shows sample receipt
+    async function submitDonate(e){
+      e.preventDefault();
+      const payload = {amount: Number(document.getElementById('amount').value), name: document.getElementById('donorName').value, message: document.getElementById('message').value};
+      try{
+        const resp = await fetch('/donate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+        if(resp.ok){ const data = await resp.json(); alert('Thank you for your donation. Please contact support in any case  — receipt id: ' + data.receipt_id); }
+        else { throw new Error('No server'); }
+      }catch(err){
+        // fallback: show a local receipt preview
+        const sample = `Receipt preview
+Name: ${payload.name}
+Amount: INR ${payload.amount}
+Message: ${payload.message}
+Receipt ID: SAMPLE-${Date.now()}`;
+        alert(sample);
+      }
+    }
+
+    function downloadSample() {
+  const txt = `Sample receipt
+Bright Futures (Charity)
+Date: ${new Date().toLocaleString()}
+
+Thank you for supporting our programs.`;
+  
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'receipt-sample.txt';
+  a.click();
+}
+
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
